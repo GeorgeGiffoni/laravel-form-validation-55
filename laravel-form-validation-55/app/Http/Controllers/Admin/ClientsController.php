@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use \App\Client;
 
 /**
  * ela nao é só um controller habitual
@@ -21,7 +22,10 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        //
+        $clients = Client::all();
+
+        // dd($clients);
+        return view('admin.clients.index', compact('clients'));
     }
 
     /**
