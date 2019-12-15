@@ -4,6 +4,8 @@
 
 <h3>Listagem de Clientes</h3>
 <br><br>
+{{-- o route é um helper do laravel serve para pegar as rotas pelo nome --}}
+<a href="{{ route('clients.create') }}" class="btn btn-default">Novo</a>
 <table class="table table-striped">
     <thead>
         <tr>
