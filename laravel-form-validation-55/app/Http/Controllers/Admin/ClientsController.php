@@ -49,31 +49,11 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-        /**
-         * validando o formulario antes de salvar utilizando o metodo validate que pertence a essa mesma classe pq ela extende de Controller
-         * esse metodo valida as informacoes no back end e se caso as informacoes nao estiverem de acordo com as regras que vc configurou
-         * ele nem vai executar o restante da funcao e automaticamente ele redireciona para a view em que esta o formulario
-         */
-
-
-        $maritalStatus = implode(',', array_keys(Client::MARITAL_STATUS));
-        $this->validate($request, [
-            'name' => 'required | max:255',
-            'document_number' => 'required',
-            'email' => 'required | email',
-            'phone' => 'required',
-            'date_birth' => 'required | date',
-            'marital_status' => "required|in:$maritalStatus",
-            'sex' => 'required | in:M,F',
-            'physical_desability' => 'max:255',
-        ]);
-
-
+        $this->_validate($request);
         $data = $request->all();
         $data['defaulter'] = $request->has('defaulter');
         Client::create($data);
-        return redirect()->to('/admin/clients');
-
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -95,7 +75,8 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $client = Client::findOrFail($id);
+        return view('admin.clients.edit', compact('client'));
     }
 
     /**
@@ -107,7 +88,18 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($id);
+        $client = Client::findOrFail($id);
+        $this->_validate($request);
+        $data = $request->all();
+        $data['defaulter'] = $request->has('defaulter');
+        Client::create();
+        //nos delimitamos os campos que sao seguros nos fillables
+        //e usando o metodo fill ele so vai persistir no banco de dados as colunas que vc colocou
+        //nos fillables do model Client
+        $client->fill($data);
+        $client->save();
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -119,5 +111,30 @@ class ClientsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Função utilizada para validar os campos do tipo radio e estado civil
+     *
+     * @param Request $request
+     * @return void
+     */
+    protected function _validate(Request $request) {
+        /**
+         * validando o formulario antes de salvar utilizando o metodo validate que pertence a essa mesma classe pq ela extende de Controller
+         * esse metodo valida as informacoes no back end e se caso as informacoes nao estiverem de acordo com as regras que vc configurou
+         * ele nem vai executar o restante da funcao e automaticamente ele redireciona para a view em que esta o formulario
+         */
+        $maritalStatus = implode(',', array_keys(Client::MARITAL_STATUS));
+        $this->validate($request, [
+            'name' => 'required | max:255',
+            'document_number' => 'required',
+            'email' => 'required | email',
+            'phone' => 'required',
+            'date_birth' => 'required | date',
+            'marital_status' => "required|in:$maritalStatus",
+            'sex' => 'required | in:M,F',
+            'physical_desability' => 'max:255',
+        ]);
     }
 }
