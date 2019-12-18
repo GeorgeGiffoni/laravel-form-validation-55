@@ -29,7 +29,7 @@
                 <td>{{ $client->email }}</td>
                 <td>{{ $client->phone }}</td>
                 <td>{{ $client->sex }}</td>
-                <td><a type="button" href="{{ route('clients.edit', ['id' => 1]) }}">Editar</a></td>
+                <td><a type="button" href="{{ route('clients.edit', ['id' => $client->id]) }}">Editar</a></td>
             </tr>
         @endforeach
     </tbody>

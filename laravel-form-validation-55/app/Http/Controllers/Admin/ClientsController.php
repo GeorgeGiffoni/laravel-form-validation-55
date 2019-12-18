@@ -23,8 +23,6 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = Client::all();
-
-        // dd($clients);
         return view('admin.clients.index', compact('clients'));
     }
 
@@ -88,7 +86,7 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($id);
+        dd('aqui');
         $client = Client::findOrFail($id);
         $this->_validate($request);
         $data = $request->all();
