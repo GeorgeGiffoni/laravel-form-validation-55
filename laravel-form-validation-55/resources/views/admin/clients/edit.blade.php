@@ -3,7 +3,13 @@
 
 <h3>Novo Cliente</h3>
 <form method="post" action="{{ route('clients.update', ['client' => $client->id]) }}">
+    {{-- atualmente os navegadores nao aceitam o verbo PUT no method do form --}}
+    {{-- usando o metodo spoffing para usar o metodo post --}}
     {{csrf_field()}}
+    {{-- cria um input hidden passando o name como method e value PUT --}}
+    <input type="hidden" name="_method" value="PUT">
+    {{-- OU --}}
+    {{method_field('PUT')}}
 
     <div class="form-group">
       <label for="name">Nome</label>
@@ -31,9 +37,9 @@
     <div class="form-group">
         <label for="marital_status">Estado Civil</label>
     <select class="form-control" id="marital_status" selected="{{$client->marital_status}}" name="marital_status" placeholder="Selecione o estado Civil">
-            <option value="1">Solteiro</option>
-            <option value="2">Casado</option>
-            <option value="3">Divorciado</option>
+            <option value="1" {{ $client->marital_status == '1' ? 'selected="selected"' : ''}}>Solteiro</option>
+            <option value="2" {{ $client->marital_status == '2' ? 'selected="selected"' : ''}}>Casado</option>
+            <option value="3" {{ $client->marital_status == '3' ? 'selected="selected"' : ''}}>Divorciado</option>
         </select>
     </div>
     
