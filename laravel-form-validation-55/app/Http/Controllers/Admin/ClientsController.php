@@ -36,7 +36,7 @@ class ClientsController extends Controller
         /**
          * 
          */
-        return view('admin.clients.create');
+        return view('admin.clients.create', ['client' => new Client()]);
     }
 
     /**
@@ -74,6 +74,7 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Client::findOrFail($id);
+
         return view('admin.clients.edit', compact('client'));
     }
 
@@ -86,12 +87,12 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd('aqui');
         $client = Client::findOrFail($id);
+
+        // dd($client);
         $this->_validate($request);
         $data = $request->all();
         $data['defaulter'] = $request->has('defaulter');
-        Client::create();
         //nos delimitamos os campos que sao seguros nos fillables
         //e usando o metodo fill ele so vai persistir no banco de dados as colunas que vc colocou
         //nos fillables do model Client
