@@ -3,6 +3,15 @@
 @section('content')
     <h3>Ver Cliente</h3>
     <a type="button" class="btn btn-primary" href="{{ route('clients.edit', ['id' => $client->id]) }}">Editar</a>
+    <a type="button" class="btn btn-link" href="{{ route('clients.index') }}">Voltar</a>
+    <a class="btn btn-danger" href="{{route('clients.destroy', ['client' => $client->id])}}"
+        onclick="event.preventDefault();if(confirm('Deseja excluir esse cliente?')){$('#form-delete').submit();}">Excluir</a>
+
+    <form style="display: none" id="form-delete" method="POST" action="{{route('clients.destroy', ['client' => $client->id])}}">
+        {{ csrf_field() }}
+        {{method_field('DELETE')}}
+    </form>
+
     <br><br>
     <table class="table table-bordered">
         <tbody>

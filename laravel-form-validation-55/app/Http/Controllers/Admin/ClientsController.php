@@ -62,8 +62,6 @@ class ClientsController extends Controller
      */
     public function show(Client $client)
     {
-        $teste = array_key_first($client->marital_status);
-        dd($teste);
         $client->marital_status = Client::MARITAL_STATUS[$client->marital_status];
         return view('admin.clients.show', compact('client'));
     }
@@ -102,12 +100,13 @@ class ClientsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Object  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return redirect()->route('clients.index');
     }
 
     /**
