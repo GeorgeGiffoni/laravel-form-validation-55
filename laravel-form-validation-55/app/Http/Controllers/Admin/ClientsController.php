@@ -57,12 +57,15 @@ class ClientsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Object  $client
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client)
     {
-        //
+        $teste = array_key_first($client->marital_status);
+        dd($teste);
+        $client->marital_status = Client::MARITAL_STATUS[$client->marital_status];
+        return view('admin.clients.show', compact('client'));
     }
 
     /**
